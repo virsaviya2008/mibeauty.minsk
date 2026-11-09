@@ -13,7 +13,7 @@ document.documentElement.classList.add('js');
      поэтому клиент отмечает их сам.
    enabled: false — временно выключить все кнопки записи.
    ========================================================= */
-const DIKIDI = { enabled: true, company: '1600464' };
+const DIKIDI = { enabled: false, company: '1600464' };
 
 // Мастер на сайте → id мастера в DIKIDI (сверено с dikidi.net/mibeauty 09.11.2026)
 const DIKIDI_MASTERS = {
