@@ -250,6 +250,7 @@ svg { width: 1em; height: 1em; flex: none; }
 .calc__selected li b { white-space: nowrap; }
 .calc__selected .is-empty { color: var(--gray); }
 .calc__hint { background: var(--stone); color: var(--stone-ink); border-radius: 12px; padding: 12px 14px; font-size: 13.5px; margin-bottom: 16px; }
+.calc__dikidi { font-size: 12.5px; color: var(--gray); text-align: center; margin-top: 10px; line-height: 1.45; }
 .calc__reset { display: block; margin: 12px auto 0; font-size: 13px; color: var(--gray); text-decoration: underline; }
 .calc__badges { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 22px; }
 .calc__badges div { background: var(--ivory); border-radius: 12px; padding: 14px; }

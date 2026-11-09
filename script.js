@@ -2,13 +2,24 @@ document.documentElement.classList.add('js');
 
 /* =========================================================
    ЗАПИСЬ ЧЕРЕЗ DIKIDI (на самом сайте форм записи нет)
-   Пока enabled: false — все кнопки «Записаться» неактивны.
-   Чтобы включить запись — поставить enabled: true.
-   • обычные кнопки открывают общую запись салона;
-   • «Хочу так же» — запись с уже выбранной услугой;
-   • «Записаться с этим набором» — запись со всеми услугами из калькулятора.
+   Все кнопки «Записаться» открывают онлайн-запись салона в DIKIDI
+   в новой вкладке:
+   • обычные кнопки — экран «Выбрать услуги / Выбрать специалиста»;
+   • «Записаться» у мастера — запись к этому мастеру;
+   • кнопка с одной услугой («Хочу так же», квиз, консультация) —
+     запись сразу на эту услугу;
+   • кнопка с несколькими услугами (калькулятор) — шаг выбора услуг:
+     DIKIDI не умеет отмечать несколько услуг по ссылке,
+     поэтому клиент отмечает их сам.
+   enabled: false — временно выключить все кнопки записи.
    ========================================================= */
-const DIKIDI = { enabled: false, company: '1600464' };
+const DIKIDI = { enabled: true, company: '1600464' };
+
+// Мастер на сайте → id мастера в DIKIDI (сверено с dikidi.net/mibeauty 09.11.2026)
+const DIKIDI_MASTERS = {
+  'Елена': 3697480, 'Алла': 3730114, 'Виктория': 4003723,
+  'Маргарита': 4186361, 'Саша': 4187010, 'Ирина': 4386037,
+};
 
 // id услуги на сайте → id услуги в DIKIDI (взяты из DIKIDI 08.11.2026)
 const DIKIDI_IDS = {
@@ -22,11 +33,15 @@ const DIKIDI_IDS = {
   u8: 22108782, u9: 22108841, u10: 22108831, u11: 22108859, u12: 22108865, u13: 22108871, u14: 22108875,
 };
 
-// Ссылка на запись DIKIDI; если переданы услуги — они будут уже отмечены
-function dikidiLink(serviceIds = []) {
-  const ids = serviceIds.map((id) => DIKIDI_IDS[id]).filter(Boolean);
+// Ссылка на запись DIKIDI
+function dikidiLink({ services = [], master = '' } = {}) {
   const base = `https://dikidi.net/ru/record/${DIKIDI.company}`;
-  return ids.length ? `${base}?st_m=2&ss_s=${ids.join(',')}` : base;
+  const masterId = DIKIDI_MASTERS[master];
+  if (masterId) return `${base}?st_m=1&sm_m=${masterId}`;      // запись к мастеру
+  const ids = services.map((id) => DIKIDI_IDS[id]).filter(Boolean);
+  if (ids.length === 1) return `${base}?st_m=2&ss_s=${ids[0]}`; // одна услуга уже выбрана
+  if (ids.length > 1) return `${base}?p=2.pi-po-ss&o=2`;        // шаг выбора услуг
+  return `${base}?p=1.pi-po`;                                    // «Выбрать услуги / специалиста»
 }
 
 /* ---------- Данные: прайс (из DIKIDI) ---------- */
@@ -291,8 +306,11 @@ document.addEventListener('click', (e) => {
   if (!btn) return;
   e.preventDefault();
   $('#fabMenu').hidden = true; $('#fabBtn').setAttribute('aria-expanded', 'false');
-  if (!DIKIDI.enabled) return; // запись ещё не подключена — кнопка неактивна
-  window.open(dikidiLink(bookingServices(btn)), '_blank', 'noopener');
+  if (!DIKIDI.enabled) return; // запись выключена
+  const url = dikidiLink({ services: bookingServices(btn), master: btn.dataset.master });
+  const win = window.open(url, '_blank');
+  if (win) win.opener = null;
+  else location.href = url; // если браузер заблокировал новую вкладку — открываем в этой
 });
 
 /* =========================================================
@@ -345,6 +363,13 @@ const Calc = (() => {
     }
     hint.hidden = !msg;
     hint.textContent = msg;
+
+    // Что произойдёт по кнопке записи
+    $('#calcDikidi').textContent = items.length === 0
+      ? 'Отметьте процедуры — и запишитесь онлайн в DIKIDI.'
+      : items.length === 1
+        ? 'Откроется онлайн-запись DIKIDI с этой услугой — останется выбрать мастера и время.'
+        : 'Откроется онлайн-запись DIKIDI: отметьте в ней эти же процедуры, затем выберите мастера и время.';
   }
   function render() { renderTabs(); renderList(); renderSummary(); }
 

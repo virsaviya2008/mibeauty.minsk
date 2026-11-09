@@ -7,6 +7,35 @@
   <meta name="description" content="MIBEAUTY — концептуальный салон натуральной красоты в Минске, ул. Репина 4. Маникюр, педикюр, брови и ресницы, макияж и укладки, перманентный макияж. Рейтинг 4.9, ТОП-мастера с международными наградами.">
   <meta name="theme-color" content="#0e0e0e">
   <link rel="icon" href="img/logo.jpg">
+  <link rel="apple-touch-icon" href="img/logo.jpg">
+
+  <!-- Превью ссылки в мессенджерах и соцсетях.
+       После публикации заменить img/brand-hd.jpg на полный адрес, например https://mibeauty.by/img/brand-hd.jpg -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:site_name" content="MIBEAUTY">
+  <meta property="og:title" content="MIBEAUTY — концептуальный салон натуральной красоты в Минске">
+  <meta property="og:description" content="Маникюр и педикюр, брови и ресницы, макияж и укладки, перманентный макияж. Минск, ул. Репина 4. Онлайн-запись в DIKIDI.">
+  <meta property="og:image" content="img/brand-hd.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BeautySalon",
+    "name": "MIBEAUTY",
+    "description": "Концептуальный салон натуральной красоты: маникюр, педикюр, брови и ресницы, макияж и укладки, перманентный макияж.",
+    "telephone": "+375296181919",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Репина, 4",
+      "addressLocality": "Минск",
+      "addressCountry": "BY"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": 53.91263, "longitude": 27.52728 },
+    "priceRange": "25–790 BYN",
+    "sameAs": ["https://www.instagram.com/mibeauty.minsk/", "https://dikidi.net/mibeauty"]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -346,6 +375,7 @@
         <ul class="calc__selected" id="calcSelected"><li class="is-empty">Пока ничего не выбрано</li></ul>
         <p class="calc__hint" id="calcHint" hidden></p>
         <button class="btn btn--accent btn--block" id="calcBook" data-book>Записаться с этим набором <svg><use href="#i-arrow"/></svg></button>
+        <p class="calc__dikidi" id="calcDikidi">Отметьте процедуры — и запишитесь онлайн в DIKIDI.</p>
         <button class="calc__reset" id="calcReset" type="button">Сбросить выбор</button>
         <div class="calc__badges">
           <div><b>0 BYN</b><span>консультация по перманенту</span></div>
